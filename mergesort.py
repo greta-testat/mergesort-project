@@ -1,72 +1,62 @@
-def ASSIGNMENT(new_list, i, old_list, j):
-    new_list[i] = old_list[j]
-
-
-def mergeSort(list_to_sort_by_merge):
-    if (
-        len(list_to_sort_by_merge) > 1
-        and not len(list_to_sort_by_merge) < 1
-        and len(list_to_sort_by_merge) != 0
-    ):
-        mid = len(list_to_sort_by_merge) // 2
-        left = list_to_sort_by_merge[:mid]
-        right = list_to_sort_by_merge[mid:]
-
-        mergeSort(left)
-        mergeSort(right)
-
-        l = 0
-        r = 0
-        i = 0
-
-        while l < len(left) and r < len(right):
-            if left[l] <= right[r]:
-                ASSIGNMENT(new_list=list_to_sort_by_merge, i=i, old_list=left, j=l)
-                l += 1
-            else:
-                ASSIGNMENT(new_list=list_to_sort_by_merge, i=i, old_list=right, j=r)
-                r += 1
-            i += 1
-
-        while l < len(left):
-            list_to_sort_by_merge[i] = left[l]
-            l += 1
-            i += 1
-
-        while r < len(right):
-            list_to_sort_by_merge[i] = right[r]
-            r += 1
-            i += 1
-
-
 import matplotlib.pyplot as plt
 
-my_list = [54, 26, 93, 17, 77, 31, 44, 55, 20]
-#x = range(len(my_list))
-#plt.plot(x, my_list)
-#plt.show()
-#mergeSort(my_list)
-#x = range(len(my_list))
-#plt.plot(x, my_list)
-#plt.show()
+def merge_sort(list_to_sort_by_merge):
+
+    if len(list_to_sort_by_merge) <= 1:
+        return
+
+    mid = len(list_to_sort_by_merge) // 2
+    left_half = list_to_sort_by_merge[:mid]
+    right_half = list_to_sort_by_merge[mid:]
+
+    # Recursively sort both halves
+    merge_sort(left_half)
+    merge_sort(right_half)
+
+    # Merge the sorted halves
+    left_index = right_index = merged_index = 0
+
+    while left_index < len(left_half) and right_index < len(right_half):
+        if left_half[left_index] <= right_half[right_index]:
+            list_to_sort_by_merge[merged_index] = left_half[left_index]
+            left_index += 1
+        else:
+            list_to_sort_by_merge[merged_index] = right_half[right_index]
+            right_index += 1
+        merged_index += 1
+
+    # Copy remaining elements of left_half, if any
+    while left_index < len(left_half):
+        list_to_sort_by_merge[merged_index] = left_half[left_index]
+        left_index += 1
+        merged_index += 1
+
+    # Copy remaining elements of right_half, if any
+    while right_index < len(right_half):
+        list_to_sort_by_merge[merged_index] = right_half[right_index]
+        right_index += 1
+        merged_index += 1
 
 
+def plot_list(data, title):
+    x = range(len(data))
+    plt.figure(figsize=(8, 4))
+    plt.plot(x, data, marker='o', color=color)
+    plt.title(title)
+    plt.xlabel("Index")
+    plt.ylabel("Value")
+    plt.grid(True)
+    plt.show()
 
-plt.figure(figsize=(8, 4))
-plt.plot(x, my_list, marker='o')
-plt.title("Unsorted List")
-plt.xlabel("Index")
-plt.ylabel("Value")
-plt.grid(True)
-plt.show()
 
-mergeSort(my_list)
+if __name__ == "__main__":
+    my_list = [54, 26, 93, 17, 77, 31, 44, 55, 20]
 
-plt.figure(figsize=(8, 4))
-plt.plot(x, my_list, marker='o', color='green')
-plt.title("Sorted List")
-plt.xlabel("Index")
-plt.ylabel("Value")
-plt.grid(True)
-plt.show()
+    # Before sorting
+    plot_list(my_list, "Unsortiert")
 
+    # Sort the list
+    merge_sort(my_list)
+
+    # After sorting
+    plot_list(my_list, "Sortiert")
