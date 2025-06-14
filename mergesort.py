@@ -37,26 +37,29 @@ def merge_sort(list_to_sort_by_merge):
         right_index += 1
         merged_index += 1
 
-
-def plot_list(data, title):
+def plot_list(data, title, color):
     x = range(len(data))
     plt.figure(figsize=(8, 4))
-    plt.plot(x, data, marker='o', color=color)
+    plt.plot(x, data, marker='o', color=color, label=title)
     plt.title(title)
     plt.xlabel("Index")
     plt.ylabel("Value")
     plt.grid(True)
+    plt.legend()
     plt.show()
+
 
 
 if __name__ == "__main__":
     my_list = [54, 26, 93, 17, 77, 31, 44, 55, 20]
 
     # Before sorting
-    plot_list(my_list, "Unsortiert")
+    plot_list(my_list, "Unsortiert", color="red")
 
     # Sort the list
     merge_sort(my_list)
 
     # After sorting
-    plot_list(my_list, "Sortiert")
+    plot_list(my_list, "Sortiert", color="green")
+
+      
