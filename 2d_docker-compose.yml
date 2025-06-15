@@ -1,0 +1,16 @@
+# service (test runner) führt tests mit pytest aus
+services:
+  test_runner:
+    build: .          # baut docker image
+    volumes:
+      - .:/app        # verbindet verzeichnis mit container pfad
+    command: pytest   # pytest wird im container ausgeführt
+    container_name: unique_test_runner  # setzt containername
+
+# service (run method) führt programm aus
+  run_method:
+    build: .          #verwendet docker image aus testrunner
+    volumes:
+      - .:/app        # verknüpft code mit container
+    command: python run_unique.py   #führt python skript aus
+    container_name: unique_method_runner  # setzt container name
